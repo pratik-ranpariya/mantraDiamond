@@ -1,0 +1,269 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+<title>MantraDiamond</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="<%=BaseUrl%>/adminPanel/css/style.css">
+<link rel="stylesheet" href="<%=BaseUrl%>/adminPanel/css/colors/blue.css">
+<link rel="stylesheet" href="<%=BaseUrl%>/adminpanel/css/sweetalert.min.css">
+<style type="text/css">
+table td{
+	display: table-cell !important;
+	width: 10% !important;
+	border-bottom: none !important;
+	background-color: #eee !important;
+}
+table th{
+	display: table-cell !important;
+	width: 10% !important;
+}
+table{
+	padding: 9px !important;
+}
+.near_by_hotel_wrapper{
+	background:#f5f5f5;
+	}
+.custom_table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    margin-top: -3px !important;
+}
+.custom_table thead tr th {
+	padding: 0px 8px;
+	font-size: 16px;
+	border: 0 none !important;
+	border-top: 0 none !important;
+}
+.custom_table tbody tr {
+    -moz-box-shadow: 0 2px 3px #e0e0e0;
+    -webkit-box-shadow: 0 2px 3px #e0e0e0;
+    box-shadow: 0 2px 3px #e0e0e0;
+}
+.near_by_hotel_wrapper table tr td {
+	border-right: 1px solid #d2d1d1;
+}
+
+.custom_table tbody tr td {
+	background: #fff none repeat scroll 0 0;
+	border-top: 0 none !important;
+	margin-bottom: 20px;
+	padding: 10px 8px;
+	font-size: 16px;
+}
+.near_by_hotel_wrapper table tr td {
+    border-right: 1px solid #d2d1d1;
+}	
+
+.newbutton{
+	background-color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 2px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.dropdown-menu .dropdown-menu{
+	max-height: 150px !important;
+}
+
+.responsive{
+	overflow-x:auto !important;
+}
+tr td,tr th{
+	min-width: 100px !important;
+	text-align: left !important;
+}
+</style>
+</head>
+<body class="gray">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+<!-- Header Container
+================================================== -->
+<%- include('header.html');%>
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+
+	<%- include('dashboard-leftlayout.html'); %>
+	<!-- Dashboard Content
+	================================================== -->
+	<div class="dashboard-content-container" data-simplebar>
+		<div class="dashboard-content-inner" >
+
+			<div class="col-xl-12" style="margin-bottom:20px;">
+                <div id="test1" class="dashboard-box">
+
+                    <div class="content with-padding" style="padding: 20px 10px 0px 20px;">
+                        <h3>Add Category</h3>
+                        <form action="<%=BaseUrl%>/insertcategory"  method="post" >
+							<span style="color: red; font-size: 20px;"><b><% if(msg1) { %> <%= msg1 %> <%}%></b></span>
+							
+                            <div class="row">
+                                <div class="col-xl-3">
+                                    <div class="submit-field">
+										<div class=" margin-top-30">
+										<input type="text" class="with-border" placeholder="Add Category..." name="name" required>
+										</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-2">
+                                    <div class="submit-field">
+										<div class="button margin-top-30">
+                                        <button href="#" class="button ripple-effect" type="submit" for="search-form" style="width:100%;text-align:center;">Add Category</button>
+									</div>
+								</div>
+                                </div>
+                            
+							</div>
+						</form>
+                        </div>
+                    </div>
+                </div>
+			
+			<!-- Dashboard Headline -->
+			<div class="dashboard-headline" style="padding-top: 45px;">
+				<h3>Categories :</h3>
+			</div>
+			<!-- Row -->
+			<div class="row">
+				<div class="col-xl-12 col-md-12 responsive">
+					<div class="">
+						<!-- <a href="#small-dialog" class="popup-with-zoom-anim button"><i class="icon-feather-plus-square"></i> Add Category</a> &nbsp;&nbsp; -->
+						<!-- <a href="#small-dialog-2" class="popup-with-zoom-anim button"><i class="icon-feather-plus-square"></i> Add Subcategory</a> &nbsp;&nbsp; -->
+						<!-- <a href="#small-dialog-3" class="popup-with-zoom-anim button"><i class="icon-feather-plus-square"></i> Add Subsubcategory</a> -->
+					</div>
+					<br>
+					<table class="table no-border custom_table dataTable no-footer dtr-inline" style="width: 100%;background-color:#fff;">
+					    <thead>
+					      <tr>
+					        <th class="text-center" width="5px">S.NO</th>
+							<th class="text-center" width="10px">Category</th>
+							<th class="text-center"> Action</th>
+					        <!-- <th class="text-center" width="30px">Subcategories</th> -->
+					        <!-- <th class="text-center" width="55px">Subsubcategories</th> -->
+					      </tr>
+					    </thead>
+					    <tbody style="background-color: #eee;" id="category">
+							<% if (data.length > 0) { var con = '1'; %>
+								<% for(var i = 0; i < data.length; i++ ) { %>
+									<tr>
+										<td><%= con; %></td>
+										<td><%= data[i].name %></td>
+										<td><button onclick="archiveFunction('<%=BaseUrl%>/deletecategory/<%= data[i]._id %>')" id="<%=BaseUrl%>/deletecategory/<%= data[i]._id %>" class="button" style="background-color:#dc3139;width: 60px !important;height: 45px;"><i class="icon-feather-trash-2"></i>
+										</button></td>
+										
+									</tr>			
+								<% con++;	} }else{  %>	
+									<tr>
+										<td colspan="3"><center>data not found</center></td>
+									</tr>
+								<% } %>	      
+					    </tbody>
+					  </table>
+				</div>	
+			</div>
+			<%- include('footer.html');%>
+	</div>
+
+	<!-- Dashboard Content / End -->
+
+</div>
+<!-- Dashboard Container / End -->
+
+</div>
+<!-- Wrapper / End -->
+
+
+<!-- Apply for a job popup
+================================================== -->
+<div id="small-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+	<!--Tabs -->
+	<div class="sign-in-form">
+		<ul class="popup-tabs-nav">
+			<li><a href="#tab">Add Category</a></li>
+		</ul>
+		<div class="popup-tabs-container">
+			<!-- Tab -->
+			<div class="popup-tab-content" id="tab">		
+				<!-- Form -->
+				<form action="<%=BaseUrl%>/insertcategory"  method="post" id="add-category">
+
+					<input type="text" name="name" value="" placeholder="Enter Category" class="with-border">
+
+					
+				
+				<!-- Button -->
+				<button class="button full-width button-sliding-icon ripple-effect" type="submit" form="add-category">Add Category <i class="icon-material-outline-arrow-right-alt"></i></button>
+				</form>	
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Scripts
+================================================== -->
+<script src="<%=BaseUrl%>/adminPanel/js/jquery-3.3.1.min.js"></script>
+<script src="<%=BaseUrl%>/adminPanel/js/jquery-migrate-3.0.0.min.js"></script>
+<script src="<%=BaseUrl%>/adminPanel/js/mmenu.min.js"></script>
+<script src="<%=BaseUrl%>/adminPanel/js/tippy.all.min.js"></script>
+<script src="<%=BaseUrl%>/adminPanel/js/simplebar.min.js"></script>
+<script src="<%=BaseUrl%>/adminPanel/js/bootstrap-slider.min.js"></script>
+<script src="<%=BaseUrl%>/adminPanel/js/bootstrap-select.min.js"></script>
+<script src="<%=BaseUrl%>/adminPanel/js/snackbar.js"></script>
+<script src="<%=BaseUrl%>/adminPanel/js/clipboard.min.js"></script>
+<script src="<%=BaseUrl%>/adminPanel/js/counterup.min.js"></script>
+<script src="<%=BaseUrl%>/adminPanel/js/magnific-popup.min.js"></script>
+<script src="<%=BaseUrl%>/adminPanel/js/slick.min.js"></script>
+<script src="<%=BaseUrl%>/adminPanel/js/custom.js"></script>
+<script src="<%=BaseUrl%>/adminpanel/js/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+
+	function archiveFunction(id) {
+event.preventDefault(); // prevent form submit
+var form = event.target.form; // storing the form
+swal({
+	title: "Are you sure?",
+	text: "are you sure you want to Delete this Product.",
+	type: "warning",
+	showCancelButton: true,
+	confirmButtonColor: "#DD6B55",
+	confirmButtonText: "Yes continue !",
+	cancelButtonText: "No, cancel please!",
+	closeOnConfirm: false,
+	closeOnCancel: false
+},
+function(isConfirm){
+	if (isConfirm) {
+		swal("Good job!", "Blocked User!", "success");
+		$.ajax({
+			url: ''+id,
+			type: 'POST',
+			success: function(results){
+				console.log("results::",results);
+			location.reload(); // then reload the page.(3)
+		}
+	});	
+	} else {
+		swal("Cancelled", "Request Cancelled!", "error");
+	}
+});
+}
+
+</script>
+
+
+</body>
+</html>
